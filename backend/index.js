@@ -4,13 +4,14 @@ import connectDb from './config/db.js'
 import cookieParser from 'cookie-parser'
 import authRoutes from './routes/authRoutes.js'
 dotenv.config()
+
 import cors from "cors"
 import userRoutes from './routes/userRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 
-let port = process.env.PORT || 6000
+let port = process.env.PORT || 8000
 
 let app = express()
 
