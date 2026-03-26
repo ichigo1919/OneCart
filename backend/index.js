@@ -12,6 +12,7 @@ dotenv.config()
 let port = process.env.PORT || 8000
 
 let app = express()
+app.set("trust proxy", 1);
 
 import cors from "cors";
 
