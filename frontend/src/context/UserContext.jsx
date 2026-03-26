@@ -10,7 +10,7 @@ function UserContext({children}) {
 
    const getCurrentUser = async () => {
         try {
-            let result =  await axios.get("http://localhost:8000/api/user/getcurrentuser", {
+            let result =  await axios.get("https://onecart-e52t.onrender.com/api/user/getcurrentuser", {
   withCredentials: true
 });
 

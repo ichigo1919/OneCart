@@ -19,7 +19,7 @@ function ShopContext({children}) {
 
     const getProducts = async () => {
         try {
-            let result = await axios.get("http://localhost:8000/api/product/list")
+            let result = await axios.get("https://onecart-e52t.onrender.com/api/product/list")
             console.log(result.data)
             setProducts(result.data)
         } catch (error) {
@@ -54,7 +54,7 @@ function ShopContext({children}) {
     if (userData) {
       setLoading(true)
       try {
-      let result = await axios.post("http://localhost:8000/api/cart/add" , {itemId,size} , {withCredentials: true})
+      let result = await axios.post("https://onecart-e52t.onrender.com/api/cart/add" , {itemId,size} , {withCredentials: true})
       console.log(result.data)
       toast.success("Product Added")
       setLoading(false)
@@ -75,7 +75,7 @@ function ShopContext({children}) {
 
     const getUserCart = async () => {
       try {
-        const result = await axios.post('http://localhost:8000/api/cart/get',{},{ withCredentials: true })
+        const result = await axios.post('https://onecart-e52t.onrender.com/api/cart/get',{},{ withCredentials: true })
 
       setCartItem(result.data)
     } catch (error) {
@@ -93,7 +93,7 @@ function ShopContext({children}) {
 
     if (userData) {
       try {
-        await axios.post("http://localhost:8000/api/cart/update", { itemId, size, quantity }, { withCredentials: true })
+        await axios.post("https://onecart-e52t.onrender.com/api/cart/update", { itemId, size, quantity }, { withCredentials: true })
       } catch (error) {
         console.log(error)
         
