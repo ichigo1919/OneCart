@@ -19,6 +19,7 @@ function UserContext({children}) {
 
         } catch (error) {
             setUserData(null)
+            navigate("/login");
             console.log(error)
         }
     }

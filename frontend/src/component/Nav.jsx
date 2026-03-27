@@ -14,7 +14,7 @@ import { authDataContext } from '../context/AuthContext';
 import { shopDataContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
 function Nav() {
-    let {getCurrentUser , userData} = useContext(userDataContext)
+    let {getCurrentUser , userData,setUserData} = useContext(userDataContext)
     let {serverUrl} = useContext(authDataContext)
     let {showSearch,setShowSearch,search,setSearch,getCartCount} = useContext(shopDataContext)
     let [showProfile,setShowProfile] = useState(false)
@@ -26,7 +26,7 @@ function Nav() {
             const result = await axios.get(serverUrl + "/api/auth/logout" , {withCredentials:true})
             console.log(result.data)
             toast.success("logged out successfully");
-            setUser(null);
+            setUserData(null);
             getCurrentUser()
             navigate("/login")
         } catch (error) {
