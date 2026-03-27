@@ -17,7 +17,10 @@ app.set("trust proxy", 1);
 import cors from "cors";
 
 const corsOptions = {
-  origin: "https://one-cart-eeap.vercel.app",
+  origin: [
+    "https://one-cart-eeap.vercel.app",   // user app
+    "https://one-cart-se46.vercel.app"    // admin app
+  ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
