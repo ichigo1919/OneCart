@@ -24,43 +24,71 @@ function Login() {
 
     let navigate = useNavigate()
 
-    const handleLogin = async (e) => {
-        setLoading(true)
-        e.preventDefault()
-        try {
-            let result = await axios.post(serverUrl + '/api/auth/login',{
-                email,password
-            },{withCredentials:true})
-            console.log(result.data)
-            setLoading(false)
-            await getCurrentUser();
-            toast.success("User Login Successful")
-            window.location.href = "/";
-            
-        } catch (error) {
-            console.log(error)
-            toast.error("User Login Failed")
-        }
-    }
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const result = await axios.post(
+      `${serverUrl}/api/auth/login`,
+      { email, password },
+      { withCredentials: true }
+    );
+
+    await getCurrentUser();
+
+    toast.success("User Login Successful");
+
+    window.location.href = "/"; // ✅ best for mobile
+
+  } catch (error) {
+    const msg =
+      error?.response?.data?.message ||
+      error?.message ||
+      "User Login Failed";
+
+    toast.error(msg);
+
+  } finally {
+    setLoading(false); // 👈 VERY IMPORTANT
+  }
+};
+
+
     const googlelogin = async () => {
-        try {
-            const response = await signInWithPopup(auth , provider)
-            let user = response.user
-            let name = user.displayName;
-            let email = user.email
-            
-            const result = await axios.post(serverUrl + "/api/auth/googlelogin" ,{name , email} , {withCredentials:true})
-            console.log(result.data)
-            await getCurrentUser();
-            toast.success("User Login Successful")
-            window.location.href = "/";
-    
-            } catch (error) {
-                console.log(error)
-                toast.error("login failed")
-            }
-            
-        }
+  setLoading(true);
+
+  try {
+    const response = await signInWithPopup(auth, provider);
+    const user = response.user;
+
+    await axios.post(
+      `${serverUrl}/api/auth/googlelogin`,
+      {
+        name: user.displayName,
+        email: user.email
+      },
+      { withCredentials: true }
+    );
+
+    await getCurrentUser();
+
+    toast.success("User Login Successful");
+
+    window.location.href = "/";
+
+  } catch (error) {
+    const msg =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Login failed";
+
+    toast.error(msg);
+
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className='w-[100vw] h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-[white] flex flex-col items-center justify-start'>
     <div className='w-[100%] h-[80px] flex items-center justify-start px-[30px] gap-[10px] cursor-pointer' onClick={()=>navigate("/")}>
