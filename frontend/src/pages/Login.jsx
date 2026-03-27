@@ -12,6 +12,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../utils/Firebase';
 import { userDataContext } from '../context/UserContext';
 import Loading from '../component/Loading';
+import { toast } from 'react-toastify';
 
 function Login() {
     let [show,setShow] = useState(false)
@@ -32,29 +33,31 @@ function Login() {
             },{withCredentials:true})
             console.log(result.data)
             setLoading(false)
-            getCurrentUser()
-            navigate("/")
+            await getCurrentUser();
             toast.success("User Login Successful")
+            window.location.href = "/";
             
         } catch (error) {
             console.log(error)
             toast.error("User Login Failed")
         }
     }
-     const googlelogin = async () => {
-            try {
-                const response = await signInWithPopup(auth , provider)
-                let user = response.user
-                let name = user.displayName;
-                let email = user.email
-    
-                const result = await axios.post(serverUrl + "/api/auth/googlelogin" ,{name , email} , {withCredentials:true})
-                console.log(result.data)
-                getCurrentUser()
-            navigate("/")
+    const googlelogin = async () => {
+        try {
+            const response = await signInWithPopup(auth , provider)
+            let user = response.user
+            let name = user.displayName;
+            let email = user.email
+            
+            const result = await axios.post(serverUrl + "/api/auth/googlelogin" ,{name , email} , {withCredentials:true})
+            console.log(result.data)
+            await getCurrentUser();
+            toast.success("User Login Successful")
+            window.location.href = "/";
     
             } catch (error) {
                 console.log(error)
+                toast.error("login failed")
             }
             
         }

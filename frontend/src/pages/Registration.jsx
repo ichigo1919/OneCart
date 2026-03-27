@@ -24,7 +24,7 @@ function Registration() {
     let [loading,setLoading] = useState(false)
 
     let navigate = useNavigate()
-    
+
  const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -38,7 +38,7 @@ function Registration() {
 
       await getCurrentUser();
       toast.success("User Registration Successful");
-      navigate("/");
+      window.location.href = "/";
 
     } catch (error) {
       const msg =
@@ -72,7 +72,7 @@ function Registration() {
 
       await getCurrentUser();
       toast.success("User Registration Successful");
-      navigate("/");
+    window.location.href = "/";
 
     } catch (error) {
       const msg =
