@@ -63,9 +63,12 @@ export const getProducts = async (req, res) => {
 
     const c = await r.get(k);
 
-    if (c) {
-      return res.json(JSON.parse(c));
-    }
+   if (c) {
+  console.log("CACHE HIT");
+  return res.json(JSON.parse(c));
+}
+ else console.log("CACHE MISS");
+
 
     const p = await Product.find();
 
@@ -88,9 +91,11 @@ export const getProductById = async (req, res) => {
 
     const c = await r.get(k);
 
-    if (c) {
-      return res.json(JSON.parse(c));
-    }
+     if (c) {
+  console.log("CACHE HIT");
+  return res.json(JSON.parse(c));
+}
+ else console.log("CACHE MISS");
 
     const p = await Product.findById(id);
 
