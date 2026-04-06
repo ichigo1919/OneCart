@@ -1,5 +1,6 @@
 import uploadOnCloudinary from "../config/cloudinary.js"
 import Product from "../model/productModel.js"
+import r from "../config/redis.js"
 
 
 export const addProduct = async (req,res) => {
@@ -18,47 +19,88 @@ export const addProduct = async (req,res) => {
             category,
             subCategory,
             sizes :JSON.parse(sizes),
-            bestseller :bestseller === "true" ? true : false,
+            bestseller :bestseller === "true",
             date :Date.now(),
             image1,
             image2,
             image3,
             image4
-            
         }
 
         const product = await Product.create(productData)
 
+        await r.del("products")   
+
         return res.status(201).json(product)
 
     } catch (error) {
-          console.log("AddProduct error")
-    return res.status(500).json({message:`AddProduct error ${error}`})
-    }
-    
-}
-
-
-export const listProduct = async (req,res) => {
-     
-    try {
-        const product = await Product.find({});
-        return res.status(200).json(product)
-
-    } catch (error) {
-        console.log("ListProduct error")
-    return res.status(500).json({message:`ListProduct error ${error}`})
+        return res.status(500).json({message:`AddProduct error ${error}`})
     }
 }
+
+
+
 
 export const removeProduct = async (req,res) => {
     try {
         let {id} = req.params;
+
         const product = await Product.findByIdAndDelete(id)
-         return res.status(200).json(product)
+
+        await r.del("products")
+        await r.del(`product:${id}`)
+
+        return res.status(200).json(product)
+
     } catch (error) {
-        console.log("RemoveProduct error")
-    return res.status(500).json({message:`RemoveProduct error ${error}`})
+        return res.status(500).json({message:`RemoveProduct error ${error}`})
     }
-    
 }
+
+export const getProducts = async (req, res) => {
+  try {
+    const k = "products";
+
+    const c = await r.get(k);
+
+    if (c) {
+      return res.json(JSON.parse(c));
+    }
+
+    const p = await Product.find();
+
+    const TTL = 60;  
+
+    await r.setEx(k, TTL, JSON.stringify(p));
+
+    res.json(p);
+
+  } catch (e) {
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const k = `product:${id}`;
+
+    const c = await r.get(k);
+
+    if (c) {
+      return res.json(JSON.parse(c));
+    }
+
+    const p = await Product.findById(id);
+
+    if (!p) return res.status(404).json({ error: "Not found" });
+
+    await r.setEx(k, 60, JSON.stringify(p));
+
+    res.json(p);
+
+  } catch (e) {
+    res.status(500).json({ error: "Server Error" });
+  }
+};
