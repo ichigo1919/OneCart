@@ -19,7 +19,7 @@ function ShopContext({children}) {
 
     const getProducts = async () => {
         try {
-            let result = await axios.get("https://onecart-e52t.onrender.com/api/product/list")
+            let result = await axios.get("https://onecart-e52t.onrender.com/api/product")
             console.log(result.data)
             setProducts(result.data)
         } catch (error) {
