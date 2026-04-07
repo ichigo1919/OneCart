@@ -14,7 +14,8 @@ productRoutes.post("/addproduct",upload.fields([
 
   productRoutes.get("/", getProducts);
  productRoutes.get("/:id", getProductById);
-productRoutes.post("/remove/:id",adminAuth,removeProduct)
+
+productRoutes.delete("/remove/:id",adminAuth,removeProduct)
 
 
 
