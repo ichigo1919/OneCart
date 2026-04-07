@@ -11,7 +11,7 @@ function Lists() {
 
   const fetchList = async () => {
     try {
-      let result = await axios.get(serverUrl + "/api/product/list" )
+      let result = await axios.get(serverUrl + "/api/products/list" )
       setList(result.data)
       console.log(result.data)
     } catch (error) {
@@ -23,7 +23,7 @@ function Lists() {
   const removeList = async (id) => {
 
     try {
-      let result = await axios.post(`${serverUrl}/api/product/remove/${id}`,{},{withCredentials:true})
+      let result = await axios.post(`${serverUrl}/api/products/remove/${id}`,{},{withCredentials:true})
 
       if(result.data){
         fetchList()

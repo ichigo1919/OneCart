@@ -40,7 +40,7 @@ function Add() {
       formData.append("image3",image3)
       formData.append("image4",image4)
 
-      let result = await axios.post(serverUrl + "/api/product/addproduct" , formData, {withCredentials:true} )
+      let result = await axios.post(serverUrl + "/api/products/addproduct" , formData, {withCredentials:true} )
 
       console.log(result.data)
       toast.success("ADD Product Successfully")
