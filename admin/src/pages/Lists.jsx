@@ -11,7 +11,7 @@ function Lists() {
 
   const fetchList = async () => {
     try {
-      let result = await axios.get(serverUrl + "/api/products/list" )
+      let result = await axios.get(serverUrl + "/api/products" )
       setList(result.data)
       console.log(result.data)
     } catch (error) {

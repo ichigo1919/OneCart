@@ -15,7 +15,7 @@ function Home() {
 
  const fetchCounts = async () => {
     try {
-      const products = await axios.get(`${serverUrl}/api/products/list`, {} ,{withCredentials:true})
+      const products = await axios.get(`${serverUrl}/api/products`, {} ,{withCredentials:true})
       setTotalProducts(products.data.length)
 
       const orders = await axios.post(`${serverUrl}/api/order/list`, {} ,{withCredentials:true})
